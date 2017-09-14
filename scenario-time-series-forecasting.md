@@ -37,9 +37,9 @@ Azure Machine Learning Workbench aids the modeling process at every step:
 
 ## Use Case Overview
 
-This scenario focuses on energy demand forecasting. This is the task of predicting the future load on an energy grid. It is a critical business operation for companies in the energy sector. For example, energy grid operators need to maintain the fine balance between the energy consumed on a grid and the energy supplied to it. If too much power is supplied to the grid, it can result in energy wastage or even technical faults. However, if there is not enough supply to meet demand it can lead to blackouts, leaving many people without power. Typically, grid operators can take short-term decisions to manage energy supply to the grid and keep the load in balance. An accurate short-term forecast of energy demand is therefore essential for the operator to make these decisions with confidence.
+This scenario focuses on energy demand forecasting. This is the task of predicting the future load on an energy grid. It is a critical business operation for companies in the energy sector. For example, energy grid operators need to maintain the fine balance between the energy consumed on a grid and the energy supplied to it. If too much power is supplied to the grid, it can result in waste of energy or even technical faults. However, if there is not enough supply to meet demand it can lead to blackouts, leaving many people without power. Typically, grid operators can take short-term decisions to manage energy supply to the grid and keep the load in balance. An accurate short-term forecast of energy demand is therefore essential for the operator to make these decisions with confidence.
 
-This scenario shows how the task of energy demand forecasting can be approached as a machine learning problem. Models are trained on a public dataset from the [New York Independent System Operator (NYISO)](http://www3.dps.ny.gov/W/PSCWeb.nsf/All/298372E2CE4764E885257687006F39DF?OpenDocument), which operates the power grid for New York State. The dataset includes hourly power demand data for New York City over a period of five years. An additional dataset containing hourly weather conditions in New York City over the same time period was taken from [darksky.net](https://darksky.net).
+This scenario shows how energy demand forecasting can be approached as a machine learning problem. Models are trained on a public dataset from the [New York Independent System Operator (NYISO)](http://www3.dps.ny.gov/W/PSCWeb.nsf/All/298372E2CE4764E885257687006F39DF?OpenDocument), which operates the power grid for New York State. The dataset includes hourly power demand data for New York City over a period of five years. An additional dataset containing hourly weather conditions in New York City over the same time period was taken from [darksky.net](https://darksky.net).
 
 ## Data Description
 
@@ -71,7 +71,7 @@ Demand values are in megawatt-hours (MWh). Below is a chart of energy demand ove
 
 ## Scenario Structure
 
-When you open this sample for the first time, navigate to the Files pane on the left-hand side of the Workbench. Here you will see the following files:
+When you open this sample for the first time[HOW DO I OPEN IT, WHAT ARE THE STEPS? PERHAPS NEEDS A DOCUMENTATION LINK TO THE PAGE TO OPEN FROM GITHUB INTO VIENNA IF THERE IS ONE, OR IF THE USER ALREADY LANDS TO AN OPEN PROJECT, STILL GOOD TO MENTION HOW THAT WILL HAPPEN HERE SINCE SOMEONE CAN JUST READ THE REPO], navigate to the Files pane on the left-hand side of the Workbench. Here you will see the following files:
 - **1-data-preparation.ipynb** - this Jupyter notebook downloads and processes the data to prepare it for modeling. This is the first notebook you will run.
 - **2-linear-regression.ipynb** - this notebook trains a linear regression model on the training data.
 - **3-ridge.ipynb** - trains a ridge regression model.
@@ -85,13 +85,13 @@ When you open this sample for the first time, navigate to the Files pane on the 
 
 ### 1. **Data Preparation & Cleaning**
 
-To start running the sample, first click on **1-data-preparation.ipynb**. This will open the notebook in preview mode. Click on **Start Notebook Server**. This will start a Jupyter notebook server and Python kernel on your machine and allow you to run the code. You can either run the notebooks from within the Workbench, or you can use your browser by navigating to [http://localhost:8888](http://localhost:8888). Press ***shift+Enter*** to run the code in the notebook cells.
+To start running the sample, first click on **1-data-preparation.ipynb**. This will open the notebook in preview mode. Click on **Start Notebook Server**. This will start a Jupyter notebook server and Python kernel on your machine and allow you to run the code. You can either run the notebooks from within the Workbench, or you can use your browser by navigating to [http://localhost:8888](http://localhost:8888)[I DONT SEE THE MachineLearningSamples-energyDemandTimeSeriesForecasting local KERNEL WHEN I GO HERE]. Press ***shift+Enter*** to run the code in the notebook cells.
 
-The notebook first downloads the data from a blob storage container hosted on Azure. The data is then stored in the AZURE_NATIVE_SHARE_DIRECTORY. This location is accessible from any notebooks or scripts you run from the Workbench so is a good place to store data and trained models.
+The notebook first downloads the data from a blob storage container hosted on Azure. The data is then stored in the AZURE_NATIVE_SHARE_DIRECTORY [DO YOU MEAN "AZUREML"_NATIVE_SHARE_DIRECTORY, ENVIRONMENT VARIABLE?, NEEDS MORE EXPLANATION HERE, MAYBE POINTER TO DOCUMENTATION]. This location is accessible from any notebooks or scripts you run from the Workbench so is a good place to store data and trained models.
 
 Once the data has been downloaded, the notebook shows how the data can be cleaned by filling gaps in the time series. Missing values are also filledby interpolation. Cleaning the time series data in this way maximizes the amount of data available for training the models.
 
-After the data has been cleaned, several model features are created from the raw data. These can be classed into two groups:
+After the data has been cleaned, several model features are created from the raw data. These can be classified into two groups:
 
 - **time driven features** - these features are derived from the *timestamp* variable e.g. *month*, *dayofweek* and *hour*
 - **lagged features** - these are time shifted values of the actual demand or temperature values. These features aim to capture the conditional dependencies between consecutive time periods in the model.
@@ -138,8 +138,8 @@ In this sample, a web service is deployed to be hosted on a Windows 10 machine. 
 
 ## Conclusion & Next Steps
 
-This sample demonstrates how to build an end-to-end time series forecasting solution for the purposes of forecasting energy demand. Many of the principles explored in this sample can be extended to other scenarios and industries. The sample shows how the Azure Machine Learning Workbench can assist a data scientist in developing such solutions with useful features such as the Jupyter notebook environment and metric logging capabilities. The sample also guides the reader on how the best model can be operationalized and deployed using Azure Machine Learning Operationalization CLI. Once deployed, the web service API allows developers or data engineers to integrate the forecasting model into a wider data pipeline.
+This sample demonstrates how to build an end-to-end time series forecasting solution for the purposes of forecasting energy demand. Many of the principles explored in this sample can be extended to other scenarios and industries. The sample shows how Azure Machine Learning Workbench can assist a data scientist in developing such solutions with useful features such as the Jupyter notebook environment and metric logging capabilities. The sample also guides the reader on how the best model can be operationalized and deployed using Azure Machine Learning Operationalization CLI. Once deployed, the web service API allows developers or data engineers to integrate the forecasting model into a wider data pipeline.
 
 ## Contact
 
-Please feel free to contact Angus Taylor (angus.taylor@microsoft.com) with any question or comment.
+Please feel free to contact Angus Taylor (angus.taylor@microsoft.com) with any question or comments.
