@@ -9,7 +9,7 @@ Following is the link to the public GitHub repository:
 ## Prerequisites
 
 1. An [Azure account](https://azure.microsoft.com/en-us/free/) (free trials are available).
-2. An installed copy of [Azure Machine Learning Workbench](./overview-what-is-azure-ml.md) following the [quick start installation guide](./quick-start-installation.md) to install the program and create a workspace.
+2. An installed copy of [Azure Machine Learning Workbench](./overview-what-is-azure-ml) following the [quick start installation guide](./quick-start-installation) to install the program and create a workspace.
 3. This sample assumes that you are running Azure ML Workbench on Windows 10 with [Docker engine](https://www.docker.com/) locally installed. If you are using macOS, the instruction is largely the same.
 4. This sample requires that you update the Pandas installation to version 0.20.3. Run the following command in the CLI to upgrade the package.
 
