@@ -1,12 +1,17 @@
 # Time Series Forecasting
 
+## Link of the Gallery GitHub repository
+
+Following is the link to the public GitHub repository: 
+
 [https://github.com/Azure/MachineLearningSamples-EnergyDemandTimeSeriesForecasting](https://github.com/Azure/MachineLearningSamples-EnergyDemandTimeSeriesForecasting)
 
 ## Prerequisites
 
-1. Please ensure that you have properly installed Azure ML Workbench by following the [installation guide](https://github.com/Azure/ViennaDocs/blob/master/Documentation/Installation.md).
-2. This sample assumes that you are running Azure ML Workbench on Windows 10 with [Docker engine](https://www.docker.com/) locally installed. If you are using macOS, the instruction is largely the same.
-3. This sample requires that you update the Pandas installation to version 0.20.3. Run the following command in the CLI to upgrade the package.
+1. An [Azure account](https://azure.microsoft.com/en-us/free/) (free trials are available).
+2. An installed copy of [Azure Machine Learning Workbench](./overview-what-is-azure-ml.md) following the [quick start installation guide](./quick-start-installation.md) to install the program and create a workspace.
+3. This sample assumes that you are running Azure ML Workbench on Windows 10 with [Docker engine](https://www.docker.com/) locally installed. If you are using macOS, the instruction is largely the same.
+4. This sample requires that you update the Pandas installation to version 0.20.3. Run the following command in the CLI to upgrade the package.
 
     ```
     conda install pandas==0.20.3
@@ -136,7 +141,7 @@ The best model can be operationalized by deploying it as a realtime web service.
 
 In this sample, a web service is deployed to be hosted on a Windows 10 machine. Ensure you have completed the prerequisite steps set out in the [installation](https://github.com/Azure/Machine-Learning-Operationalization/blob/master/documentation/install-on-windows.md) guide for the Operationalization CLI. Follow the instructions under **Set up the Azure Machine Learning environment for local mode deployment**. Once you have set up your environment for local deployment, run the **10-deploy-model.ipynb** notebook to deploy the web service.
 
-## Conclusion & Next Steps
+## Conclusion
 
 This sample demonstrates how to build an end-to-end time series forecasting solution for the purposes of forecasting energy demand. Many of the principles explored in this sample can be extended to other scenarios and industries. The sample shows how the Azure Machine Learning Workbench can assist a data scientist in developing such solutions with useful features such as the Jupyter notebook environment and metric logging capabilities. The sample also guides the reader on how the best model can be operationalized and deployed using Azure Machine Learning Operationalization CLI. Once deployed, the web service API allows developers or data engineers to integrate the forecasting model into a wider data pipeline.
 
