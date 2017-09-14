@@ -6,20 +6,21 @@
 
 1. Please ensure that you have properly installed Azure ML Workbench by following the [installation guide](https://github.com/Azure/ViennaDocs/blob/master/Documentation/Installation.md).
 2. This sample assumes that you are running Azure ML Workbench on Windows 10 with [Docker engine](https://www.docker.com/) locally installed. If you are using macOS, the instruction is largely the same.
-3. This sample requires that you update the Pandas installation to version 0.20.3. Run the following command in the CLI to upgrade the package.
-
+3. This sample requires that you update the Pandas installation to version 0.20.3. The following CLI command will ensure the correct pandas version: 
     ```
     conda install pandas==0.20.3
     ```
+    _**JE**: I think the conda.dependencies handles case 3 with specific pandas version_
 
 Notes:
 
 - The sample was built and tested on a Windows 10 machine with the following specification: Intel Core i7-6600U CPU @ 2.60 GHz, 16-GB RAM, 64-bit OS, x64-based processor with Docker Version 17.06.2-ce-win27 (13194).
 - Model operationalization was built using this version of Azure ML CLI: azure-cli-ml==0.1.0a24.post2
+_**JE:** similar to pandas, a specific azure-cli version is deprecated in short order_
 
 ## Introduction
 
-Time series forecasting is the task of predicting future values in a time-ordered sequence of observations. It is a common problem and has applications in many industries. For example, retail companies need to forecast future products sales so they can effectively organize their supply chains to meet demand. Similarly, package delivery companies need to estimate the demand for their services so they can plan workforce requirements and delivery routes ahead of time. In many cases, the financial risks of inaccurate forecasts can be significant and forecasting is therefore often a business critical activity.
+Time series forecasting is the task of predicting future values in a time-ordered sequence of observations. It is a common problem and has applications in many industries. For example, retail companies need to forecast future products sales so they can effectively organize their supply chains to meet demand. Similarly, package delivery companies need to estimate the demand for their services so they can plan workforce requirements and delivery routes ahead of time. In many cases, the financial risks of inaccurate forecasts can be significant. Therefore accurate forecasting can be a business critical activity.
 
 This sample shows how time series forecasting can be performed through applying machine learning techniques. You are guided through every step of the modeling process including:
 - data preparation to clean and format the data;
@@ -37,13 +38,13 @@ Azure Machine Learning Workbench aids the modeling process at every step:
 
 ## Use Case Overview
 
-This scenario focuses on energy demand forecasting. This is the task of predicting the future load on an energy grid. It is a critical business operation for companies in the energy sector. For example, energy grid operators need to maintain the fine balance between the energy consumed on a grid and the energy supplied to it. If too much power is supplied to the grid, it can result in energy wastage or even technical faults. However, if there is not enough supply to meet demand it can lead to blackouts, leaving many people without power. Typically, grid operators can take short-term decisions to manage energy supply to the grid and keep the load in balance. An accurate short-term forecast of energy demand is therefore essential for the operator to make these decisions with confidence.
+This scenario focuses on energy demand forecasting where the goal is to predict the future load on an energy grid. It is a critical business operation for companies in the energy sector as operators need to maintain the fine balance between the energy consumed on a grid and the energy supplied to it. Too much power supplied to the grid can result in energy waste or technical faults, not enough supply to can lead to blackouts leaving customers without power. Typically, grid operators can take short-term decisions to manage energy supply to the grid and keep the load in balance. An accurate short-term forecast of energy demand is therefore essential for the operator to make these decisions with confidence.
 
-This scenario shows how the task of energy demand forecasting can be approached as a machine learning problem. Models are trained on a public dataset from the [New York Independent System Operator (NYISO)](http://www3.dps.ny.gov/W/PSCWeb.nsf/All/298372E2CE4764E885257687006F39DF?OpenDocument), which operates the power grid for New York State. The dataset includes hourly power demand data for New York City over a period of five years. An additional dataset containing hourly weather conditions in New York City over the same time period was taken from [darksky.net](https://darksky.net).
+This scenario details the construction of a machine learning energy demand forecasting solution. The solution is trained using a public dataset from the [New York Independent System Operator (NYISO)](http://www3.dps.ny.gov/W/PSCWeb.nsf/All/298372E2CE4764E885257687006F39DF?OpenDocument), which operates the power grid for New York State. The dataset includes hourly power demand data for New York City over a period of five years. An additional dataset containing hourly weather conditions in New York City over the same time period was taken from [darksky.net](https://darksky.net).
 
 ## Data Description
 
-The data for this sample is stored in a blob storage container on Azure. Instructions for downloading this data are provided in the next section. There are two datasets: *nyc_demand.csv* and *nyc_weather.csv*:
+There are two datasets: *nyc_demand.csv* and *nyc_weather.csv*:
 
 **nyc_demand.csv** contains hourly power demand values for New York City for the years 2012-2017. The data has the following simple structure:
 
@@ -71,7 +72,7 @@ Demand values are in megawatt-hours (MWh). Below is a chart of energy demand ove
 
 ## Scenario Structure
 
-When you open this sample for the first time, navigate to the Files pane on the left-hand side of the Workbench. Here you will see the following files:
+When you open this sample for the first time, navigate to the Files pane on the left-hand side of the Workbench. The following code files are provided with the scenario:
 - **1-data-preparation.ipynb** - this Jupyter notebook downloads and processes the data to prepare it for modeling. This is the first notebook you will run.
 - **2-linear-regression.ipynb** - this notebook trains a linear regression model on the training data.
 - **3-ridge.ipynb** - trains a ridge regression model.
@@ -85,42 +86,47 @@ When you open this sample for the first time, navigate to the Files pane on the 
 
 ### 1. **Data Preparation & Cleaning**
 
-To start running the sample, first click on **1-data-preparation.ipynb**. This will open the notebook in preview mode. Click on **Start Notebook Server**. This will start a Jupyter notebook server and Python kernel on your machine and allow you to run the code. You can either run the notebooks from within the Workbench, or you can use your browser by navigating to [http://localhost:8888](http://localhost:8888). Press ***shift+Enter*** to run the code in the notebook cells.
+To start running the sample, first click on `1-data-preparation.ipynb` which opens the notebook in preview mode. Click on **Start Notebook Server** button to start a Jupyter notebook server and Python kernel on your machine and allow you to run the code examples. You can either run the notebooks from within the Workbench, or you can use your browser by navigating to [http://localhost:8888](http://localhost:8888). Press ***shift+Enter*** to run the code in the notebook cells.
 
-The notebook first downloads the data from a blob storage container hosted on Azure. The data is then stored in the AZURE_NATIVE_SHARE_DIRECTORY. This location is accessible from any notebooks or scripts you run from the Workbench so is a good place to store data and trained models.
+The notebook first downloads the data from a blob storage container hosted on Azure. The data is then stored in the `AZURE_NATIVE_SHARE_DIRECTORY`. This location is accessible from any notebook or script you run from the Workbench and is also a good place to store data and trained models between different tasks.
 
-Once the data has been downloaded, the notebook shows how the data can be cleaned by filling gaps in the time series. Missing values are also filledby interpolation. Cleaning the time series data in this way maximizes the amount of data available for training the models.
+Once the data has been downloaded, the notebook cleans the data by filling gaps in the time series and filling missing values by interpolation. Cleaning the time series data in this way maximizes the amount of data available for training the models.
 
-After the data has been cleaned, several model features are created from the raw data. These can be classed into two groups:
+Several model features are created from the cleaned raw data. These features can be categorized into two groups:
 
-- **time driven features** - these features are derived from the *timestamp* variable e.g. *month*, *dayofweek* and *hour*
-- **lagged features** - these are time shifted values of the actual demand or temperature values. These features aim to capture the conditional dependencies between consecutive time periods in the model.
+- **time driven features** - features are derived from the *timestamp* variable e.g. *month*, *dayofweek* and *hour*
+
+- **lagged features** - time shifted features constructed from actual demand or temperature values. These features aim to capture the conditional dependencies between consecutive time periods in the model.
+
+The resulting feature data set can then be used when developing forecasting models. 
 
 ### 2. **Model Development**
 
-Open the first model notebook, **2-linear-regression.ipynb** to begin the model development process. This notebook shows how to train a linear regression model to create a forecast of future energy demand. In particular, the model will be trained to predict energy demand in period ***t+1***, one hour ahead of the current time period ***t***.
+A first model approach may be a simple linear regression model. The `2-linear-regression.ipynb` notebook shows how to train a linear regression forecast model for future energy demand. In particular, the model will be trained to predict energy demand in period one hour (***t+1***) ahead of the current time period (***t***).
 
 To train a model, a predictive pipeline is created which involves three distinct steps:
 
-- **a data transformation**: the required formats for input data can vary depending on the machine learning algorithm. For example, linear regression requires categorical variables to be one-hot encoded while other algorithms do not.
-- **a cross validation routine**: Often a machine learning model will have one or more hyperparameters that need to be tuned through experimentation. Cross validation can be used to find the optimal set of parameter values. The model is repeatedly trained and evaluated on different folds of the dataset. The best parameters are those that achieve the best model performance when averaged across the cross validation folds. This process is explained in more detail in 2-linear-regression.ipynb.
+- **a data transformation**: the required formats for input data can vary depending on the machine learning algorithm. IN this case, linear regression requires categorical variables to be one-hot encoded while other algorithms do not.
+- **a cross validation routine**: Often a machine learning model will have one or more hyperparameters that need to be tuned through experimentation. Cross validation can be used to find the optimal set of parameter values. The model is repeatedly trained and evaluated on different folds of the dataset. The best parameters are those that achieve the best model performance when averaged across the cross validation folds. This process is explained in more detail in `2-linear-regression.ipynb`.
 - **training the final model**: The model is trained on the whole dataset, using the best set of hyperparameters.
 
-Run all the notebooks numbered 2-7 to train all the models developed for this scenario.
+We have included a series of 6 different models in notebooks numbered 2-7. Each notebook trains a different model and stores it in the `AZURE_NATIVE_SHARE_DIRECTORY` location. Once you have trained all the models developed for this scenario, we can compare the resulting model in the next section.
 
 ### 3. **Model Evaluation & Comparison**
 
-We can use a trained model to make forecasts for the time period covered in held-out test dataset. By evaluating the different models on the same dataset, we can fairly compare their performance and identify the best model. To evaluate a model, open the **8-evaluate-model .py** script from the File explorer pane in the Workbench. This script performs several operations:
+We can use a trained model to make forecasts for some future time period. It is best to evaluate these models in a held-out test dataset. By evaluating the different models on the same unseen dataset, we can fairly compare their performance and identify the model that best matches an actual response. 
 
-- loads a trained model pipeline from disk
-- makes predictions on the test dataset
-- computes model performance metrics and logs them
-- saves the test dataset predictions to disk
-- saves the trained model pipeline to the *Outputs* folder. The model will then be copied into the Azure Blob Storage account associated with your Experimentation account.
+To evaluate a model, open the `8-evaluate-model .py`` script from the File explorer pane in the Workbench. This script performs several operations:
 
-Check that *Run Configuration* is set to **local** and then type the model name into the *Arguments* field. The model name needs to match exactly the *model_name* variable set at the start of the notebook in which the model is trained (e.g. "linear_regression"). Click *Run* to execute the script and evaluate the model.
+- loads a trained model pipeline from disk (`AZURE_NATIVE_SHARE_DIRECTORY`).
+- makes predictions on the test dataset.
+- computes model performance metrics by comparing the predictions to actual measurements and logs them back to disk.
+- saves the test dataset predictions to disk.
+- saves the trained model pipeline to the *Outputs* folder. The model will then be copied into the Azure Blob Storage account associated with your Experimentation account. _**JE** This step seems opaque to me. Should we explain WHY outputs instead of `AZURE_NATIVE_SHARE_DIRECTORY`_
 
-To compare the performance of multiple trained models, run the script repeatly using different model names as the script argument. Now navigate to the *Run History* pane and click on *8-evaluate-model .py*. You will see some charts displaying three model performance metrics:
+Check that *Run Configuration* is set to **local** and then type the model name into the *Arguments* field. The model name needs to match exactly the *model_name* variable set at the start of the notebook in which the model is trained (e.g. "linear_regression"). Click *Run* to execute the script and evaluate the model. _**JE** This paragraph can also be reworked. I have a hard time parsing this, and I've been in the app before._
+
+To compare the performance of multiple trained models, run the script repeatly using different model names as the script argument._**JE** Maybe create a script to do this for each of the 6 models created in the supplied ipynb?_ Now navigate to the *Run History* pane in the workbench app and click on `8-evaluate-model.py`. You will see charts displaying three model performance metrics:
 
 - **MSE**: [mean squared error](https://en.wikipedia.org/wiki/Mean_squared_error)
 - **RMSE**: root mean squared error (the square root of MSE)
@@ -128,18 +134,20 @@ To compare the performance of multiple trained models, run the script repeatly u
 
 If metrics are not displaying in the chart area, click on the gear symbol in the top right-hand corner. Ensure that the model performance metrics you are interested in are checked. The metrics will also appear in a table below the charts. Again, this table is customizable be clicking on the gear symbol. Sort the table by a performance metric to identify the best model.
 
-When evaluating forecasting models, it can be very useful to visualize the output predictions. This helps the data scientist to determine whether the forecast produced appears realistic. It can also help to identify problems in the forecast if, for example, the forecast performs poorly in certain time periods. Use the notebook **9-forecast-output-exploration.ipynb** to produce visualizations of the forecast generated for the test dataset.
+When evaluating forecasting models, it can be very useful to visualize the output predictions. This helps the data scientist to determine whether the forecast produced appears realistic. It can also help to identify problems in the forecast if, for example, the forecast performs poorly in certain time periods. The `9-forecast-output-exploration.ipynb` notebook will produce visualizations of the forecasts generated for the test dataset.
 
 ### 4. **Deployment**
 
-The best model can be operationalized by deploying it as a realtime web service. This web service can be invoked to generate forecasts on demand as new data becomes available. In this scenario, a new forecast needs to be generated every hour to predict the energy demand in the subsequent hour. To perform this task, a web service can be deployed which takes an array of features for a given hour time period as input and returns the predicted demand as output.
+The best model can be operationalized by deploying it as a realtime web service. This web service can then be invoked to generate forecasts on demand as new data becomes available. In this scenario, a new forecast needs to be generated every hour to predict the energy demand in the subsequent hour. To perform this task, a web service can be deployed which takes an array of features for a given hour time period as input and returns the predicted demand as output.
 
-In this sample, a web service is deployed to be hosted on a Windows 10 machine. Ensure you have completed the prerequisite steps set out in the [installation](https://github.com/Azure/Machine-Learning-Operationalization/blob/master/documentation/install-on-windows.md) guide for the Operationalization CLI. Follow the instructions under **Set up the Azure Machine Learning environment for local mode deployment**. Once you have set up your environment for local deployment, run the **10-deploy-model.ipynb** notebook to deploy the web service.
+In this sample, a web service is deployed to a Windows 10 machine. Ensure you have completed the prerequisite steps set out in the [installation guide](https://github.com/Azure/Machine-Learning-Operationalization/blob/master/documentation/install-on-windows.md) for the Operationalization CLI. Follow the instructions under **Set up the Azure Machine Learning environment for local mode deployment**. Once you have set up your environment for local deployment, run the `10-deploy-model.ipynb` notebook to deploy the web service.
 
 ## Conclusion & Next Steps
 
-This sample demonstrates how to build an end-to-end time series forecasting solution for the purposes of forecasting energy demand. Many of the principles explored in this sample can be extended to other scenarios and industries. The sample shows how the Azure Machine Learning Workbench can assist a data scientist in developing such solutions with useful features such as the Jupyter notebook environment and metric logging capabilities. The sample also guides the reader on how the best model can be operationalized and deployed using Azure Machine Learning Operationalization CLI. Once deployed, the web service API allows developers or data engineers to integrate the forecasting model into a wider data pipeline.
+This sample demonstrates how to build an end-to-end time series forecasting solution for the purposes of forecasting energy demand. Many of the principles explored in this sample can be extended to other forecasting scenarios and industries. 
+
+This scenario shows how the Azure Machine Learning Workbench can assist a data scientist in developing real world solutions with useful features such as the Jupyter notebook environment and metric logging capabilities. The sample also guides the reader on how the best model can be operationalized and deployed using Azure Machine Learning Operationalization CLI. Once deployed, the web service API allows developers or data engineers to integrate the forecasting model into a wider data pipeline.
 
 ## Contact
 
-Please feel free to contact Angus Taylor (angus.taylor@microsoft.com) with any question or comment.
+Please feel free to contact Angus Taylor <angus.taylor@microsoft.com> with any question or comment.
