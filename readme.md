@@ -1,42 +1,46 @@
-# Time Series Forecasting
+# Energy Demand Time Series Forecasting
 
-![Energy demand forecast](./media/scenario-time-series-forecasting/forecast_illustration.png)
+## Link to the Microsoft DOCS site
 
-## Introduction
+The detailed documentation for this real world scenario includes the step-by-step walkthrough:
 
-Time series forecasting is the task of predicting future values in a time-ordered sequence of observations. It is a common problem and has applications in many industries. For example, retail companies need to forecast future product sales so they can effectively organize their supply chains to meet demand. Similarly, package delivery companies need to estimate the demand for their services so they can plan workforce requirements and delivery routes ahead of time. In many cases, the financial risks of inaccurate forecasts can be significant. Therefore, forecasting is often a business critical activity.
+[https://review.docs.microsoft.com/en-us/azure/machine-learning/preview/scenario-time-series-forecasting](https://review.docs.microsoft.com/en-us/azure/machine-learning/preview/scenario-time-series-forecasting)
 
-This sample shows how time series forecasting can be performed through applying machine learning techniques. You are guided through every step of the modeling process including:
+## Link to the Gallery GitHub repository
+
+The public GitHub repository for this real world scenario contains all the code samples:
+[https://github.com/Azure/MachineLearningSamples-EnergyDemandTimeSeriesForecasting](https://github.com/Azure/MachineLearningSamples-EnergyDemandTimeSeriesForecasting)
+
+## Overview
+
+Time series forecasting is the task of predicting future values in a time-ordered sequence of observations. It is a common problem and has applications in many industries. This example focuses on energy demand forecasting where the goal is to predict the future load on an energy grid. It is a critical business operation for companies in the energy sector.
+
+In this example, machine learning methods are applied to forecast time series. Although the context is energy demand forecasting, the methods used can be applied to many other contexts and use cases. Using Azure Machine Learning Workbench, you are guided through every step of the modeling process including:
 - Data preparation to clean and format the data;
 - Creating features for the machine learning models from raw time series data;
 - Training various machine learning models;
 - Evaluating the models by comparing their performance on a held-out test dataset; and,
 - Operationalizing the best model, making it available through a web service to generate forecasts on demand.
 
-Azure Machine Learning Workbench aids the modeling process at every step: 
-- The sample shows how the Jupyter notebook environment - available directly from through Workbench - can make developing Python code easier. The model development process can be explained to others more clearly using markdown annotations and charts. These notebooks can be viewed, edited, and executed directly from the Workbench.
-- Trained models can be persisted and uploaded to blob storage. This helps the data scientist to keep track of trained model objects and ensure they are retained and retrievable when needed.
-- Metrics can be logged while executing a Python script, enabling the data scientist to keep a record of model performance scores.
-- The workbench produces customizable tables of logged metrics allowing the data scientist to easily compare model performance metrics. Charts are automatically displayed so the best performing model can be readily identified.
-- Finally, the sample shows how a trained model can be operationalized by deploying it in a realtime web service.
+## Key components needed to run this scenario
 
-## Use case overview
+1. An [Azure account](https://azure.microsoft.com/free/) (free trials are available).
+2. An installed copy of Azure Machine Learning Workbench with a workspace created.
+3. For model operationalization:
+    - [Docker engine](https://www.docker.com/).
+    - Azure Machine Learning Operationalization with a local deployment environment set up and a model management account created as described in this  [guide](https://github.com/Azure/Machine-Learning-Operationalization/blob/master/documentation/getting-started.md).
+3. This example could be run on any compute context. However, it is recommended to run it on a multi-core machine with at least of 8-GB memory.
 
-This scenario focuses on energy demand forecasting where the goal is to predict the future load on an energy grid. It is a critical business operation for companies in the energy sector as operators need to maintain the fine balance between the energy consumed on a grid and the energy supplied to it. Too much power supplied to the grid can result in waste of energy or technical faults. However, if too little power is supplied it can lead to blackouts, leaving customers without power. Typically, grid operators can take short-term decisions to manage energy supply to the grid and keep the load in balance. An accurate short-term forecast of energy demand is therefore essential for the operator to make these decisions with confidence.
+## Contributing
 
-This scenario details the construction of a machine learning energy demand forecasting solution. The solution is trained on a public dataset from the [New York Independent System Operator (NYISO)](http://www3.dps.ny.gov/W/PSCWeb.nsf/All/298372E2CE4764E885257687006F39DF?OpenDocument), which operates the power grid for New York State. The dataset includes hourly power demand data for New York City over a period of five years. An additional dataset containing hourly weather conditions in New York City over the same time period was taken from [darksky.net](https://darksky.net).
+This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+the rights to use your contribution. For details, visit https://cla.microsoft.com.
 
-## Scenario structure
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (for example, label, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.
 
-When you open this project for the first time in Azure Machine Learning Workbench, open to the Files pane on the left-hand side. The following code files are provided with this sample:
-- `1-data-preparation.ipynb` - this Jupyter notebook downloads and processes the data to prepare it for modeling. This is the first notebook you will run.
-- `2-linear-regression.ipynb` - this notebook trains a linear regression model on the training data.
-- `3-ridge.ipynb` - trains a ridge regression model.
-- `4-ridge-poly2.ipynb` - trains a ridge regression model on polynomial features of degree 2.
-- `5-mlp.ipynb` - trains a multi-layer perceptron neural network.
-- `6-dtree.ipynb` - trains a decision tree model.
-- `7-gbm.ipynb` - trains a gradient boosted machine model.
-- `8-evaluate-model.py` - this script loads a trained model and uses it to make predictions on a held-out test dataset. It produces model evaluation metrics so the performance of different models can be compared.
-- `9-forecast-output-exploration.ipynb` - this notebook produces visualizations of the forecasts generated by the machine learning models.
-- `10-deploy-model.ipynb` - this notebook demonstrates how a trained forecasting model can be operationalized in a realtime web service.
-- `evaluate-all-models.py` - this script evaluates all trained models. This script is an alternative to running `8-evaluate-model.py` for each trained model individually.
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.

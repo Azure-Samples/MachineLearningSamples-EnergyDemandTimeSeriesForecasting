@@ -6,30 +6,26 @@ import pickle
 import os
 import sys
 
+
 model_name = sys.argv[1]
+
 aml_dir = os.environ['AZUREML_NATIVE_SHARE_DIRECTORY']
 
 # set forecast horizon
 H = 6
 
 run_logger = get_azureml_logger()
-run_logger.log("Model Name", model_name)
 
-# load the test set
-test = pd.read_csv(aml_dir + 'nyc_demand_test.csv', parse_dates=['timeStamp'])
-
-# Load trained model pipeline
-with open(aml_dir + model_name + '.pkl', 'rb') as f:
-    model = pickle.load(f)
-
-# The models trained in notebooks 2-7 are 'one-step' forecasts
-# because they are trained to predict one time period into the 
-# future. Here, we use the trained model recursively to predict
-# multiple future time steps. At each iteration from time t+1
-# to the forecast horizon H, the predictions from the previous
-# steps become the lagged demand input features for subsequent
-# predictions.
 def generate_forecasts(test_df):
+    '''
+    The models trained in notebooks 2-7 are 'one-step' forecasts
+    because they are trained to predict one time period into the 
+    future. Here, we use the trained model recursively to predict
+    multiple future time steps. At each iteration from time t+1
+    to the forecast horizon H, the predictions from the previous
+    steps become the lagged demand input features for subsequent
+    predictions.
+    '''
     
     predictions_df = test_df.copy()
     X_test = test_df.copy().drop(['demand', 'timeStamp'], axis=1)
@@ -46,15 +42,17 @@ def generate_forecasts(test_df):
         
     return predictions_df
 
+
 def shift_demand_features(df):
     for i in range(H, 1, -1):
         df['demand_lag'+str(i)] = df['demand_lag'+str(i-1)]
 
-predictions_df = generate_forecasts(test)
 
-# Compute forecast performance metrics for every step ahead n
 def evaluate_forecast(predictions_df, n):
-    
+    '''
+    Compute forecast performance metrics for every n step ahead
+    '''
+
     y_true = predictions_df['demand']
     y_pred = predictions_df['pred_t+'+str(n)]
     error = y_pred - y_true
@@ -81,39 +79,59 @@ def evaluate_forecast(predictions_df, n):
     
     return metrics
 
-performance_metrics = pd.DataFrame.from_dict({1:evaluate_forecast(predictions_df, 1),
-                                            2:evaluate_forecast(predictions_df, 2),
-                                            3:evaluate_forecast(predictions_df, 3),
-                                            4:evaluate_forecast(predictions_df, 4),
-                                            5:evaluate_forecast(predictions_df, 5),
-                                            6:evaluate_forecast(predictions_df, 6)})
 
-# Compute and log average of metrics over the forecast horizon "hmean"
-horizon_mean = performance_metrics.mean(axis=1)
-for metric, value in horizon_mean.iteritems():
-    run_logger.log(metric + '_horizon', value)
-
-# Log the t+1 forecast metrics
-for metric, value in performance_metrics[1].iteritems():
-    run_logger.log(metric, value)
-
-# Plot metrics over forecast period. View the output in Run History to view.
-def plot_metric(metric):
+def plot_metric(metric, performance_metrics):
+    '''
+    Plots metrics over forecast period t+1 to t+H
+    '''
     plt_series = performance_metrics.stack()[metric]
     fig = plt.figure(figsize=(6, 4), dpi=75)
     plt.plot(plt_series.index, plt_series)
     plt.xlabel("Forecast t+n")
     plt.ylabel(metric)
-    fig.savefig('./outputs/' + metric + '.png', bbox_inches='tight')
+    fig.savefig(os.path.join('.', 'outputs', metric + '.png'), bbox_inches='tight')
 
-plot_metric('MAPE')
-plot_metric('MdRAE')
-plot_metric('MPE')
 
-# Output the predictions dataframe
-with open(aml_dir + model_name + '_predictions.pkl', 'wb') as f:
-    pickle.dump(predictions_df, f)
+if __name__=='__main__':
+    
+    run_logger.log("Model Name", model_name)
 
-# Store the trained model in the Outputs folder.
-with open('./outputs/' + model_name + '.pkl', 'wb') as f:    
-    pickle.dump(model, f)
+    # load the test set
+    test = pd.read_csv(os.path.join(aml_dir, 'nyc_demand_test.csv'), parse_dates=['timeStamp'])
+
+    # Load trained model pipeline
+    with open(os.path.join(aml_dir, model_name + '.pkl'), 'rb') as f:
+        model = pickle.load(f)
+
+    # generate forecasts on the test set
+    predictions_df = generate_forecasts(test)
+
+    # calculate model performance metrics
+    performance_metrics = pd.DataFrame.from_dict({1:evaluate_forecast(predictions_df, 1),
+                                                2:evaluate_forecast(predictions_df, 2),
+                                                3:evaluate_forecast(predictions_df, 3),
+                                                4:evaluate_forecast(predictions_df, 4),
+                                                5:evaluate_forecast(predictions_df, 5),
+                                                6:evaluate_forecast(predictions_df, 6)})
+
+    # Compute and log average of metrics over the forecast horizon
+    horizon_mean = performance_metrics.mean(axis=1)
+    for metric, value in horizon_mean.iteritems():
+        run_logger.log(metric + '_horizon', value)
+
+    # Log the t+1 forecast metrics
+    for metric, value in performance_metrics[1].iteritems():
+        run_logger.log(metric, value)
+
+    # Plot metrics over forecast period. View the output in Run History to view.
+    plot_metric('MAPE', performance_metrics)
+    plot_metric('MdRAE', performance_metrics)
+    plot_metric('MPE', performance_metrics)
+
+    # Output the predictions dataframe
+    with open(os.path.join(aml_dir, model_name + '_predictions.pkl'), 'wb') as f:
+        pickle.dump(predictions_df, f)
+
+    # Store the trained model in the Outputs folder.
+    with open(os.path.join('.', 'outputs', model_name + '.pkl'), 'wb') as f:    
+        pickle.dump(model, f)
