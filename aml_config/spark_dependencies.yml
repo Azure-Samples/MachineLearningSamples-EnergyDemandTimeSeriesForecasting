@@ -22,7 +22,7 @@ packages:
   # Details: https://github.com/Azure/mmlspark
   - group: "com.microsoft.ml.spark"
     artifact: "mmlspark_2.11"
-    version: "0.7.9"
+    version: "0.7.91"
 
   #	Required for SQL Server data sources.
   - group: "com.microsoft.sqlserver"
