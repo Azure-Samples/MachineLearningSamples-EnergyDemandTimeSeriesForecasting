@@ -29,7 +29,7 @@ In this example, machine learning methods are applied to forecast time series. A
 3. For model operationalization:
     - [Docker engine](https://www.docker.com/).
     - Azure Machine Learning Operationalization with a local deployment environment set up and a model management account created as described in this  [guide](https://github.com/Azure/Machine-Learning-Operationalization/blob/master/documentation/getting-started.md).
-3. This example could be run on any compute context. However, it is recommended to run it on a multi-core machine with at least of 8-GB memory.
+4. This example could be run on any compute context. However, it is recommended to run it on a multi-core machine with at least of 8-GB memory.
 
 ## Contributing
 
