@@ -4,11 +4,12 @@
 
 The detailed documentation for this real world scenario includes the step-by-step walkthrough:
 
-[https://review.docs.microsoft.com/en-us/azure/machine-learning/preview/scenario-time-series-forecasting](https://review.docs.microsoft.com/en-us/azure/machine-learning/preview/scenario-time-series-forecasting)
+[https://docs.microsoft.com/azure/machine-learning/preview/scenario-time-series-forecasting](https://docs.microsoft.com/azure/machine-learning/preview/scenario-time-series-forecasting)
 
 ## Link to the Gallery GitHub repository
 
 The public GitHub repository for this real world scenario contains all the code samples:
+
 [https://github.com/Azure/MachineLearningSamples-EnergyDemandTimeSeriesForecasting](https://github.com/Azure/MachineLearningSamples-EnergyDemandTimeSeriesForecasting)
 
 ## Overview
