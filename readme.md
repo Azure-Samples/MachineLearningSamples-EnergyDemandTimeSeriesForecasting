@@ -32,6 +32,9 @@ In this example, machine learning methods are applied to forecast time series. A
     - Azure Machine Learning Operationalization with a local deployment environment set up and a model management account created as described in this  [guide](https://github.com/Azure/Machine-Learning-Operationalization/blob/master/documentation/getting-started.md).
 4. This example could be run on any compute context. However, it is recommended to run it on a multi-core machine with at least of 8-GB memory.
 
+## Data/Telemetry
+The Energy Demand Time Series Forecasting sample collects usage data and sends it to Microsoft to help improve our products and services. Read our privacy statement to learn more. 
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
