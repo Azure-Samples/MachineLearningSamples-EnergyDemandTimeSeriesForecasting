@@ -15,7 +15,7 @@ aml_dir = os.environ['AZUREML_NATIVE_SHARE_DIRECTORY']
 H = 6
 
 run_logger = get_azureml_logger()
-run_logger.log(“amlrealworld.timeseries.evaluate-model”,”true”)
+run_logger.log('amlrealworld.timeseries.evaluate-model','true')
 
 def generate_forecasts(test_df):
     '''
