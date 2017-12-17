@@ -30,3 +30,4 @@ dependencies:
 
     - pandas>=0.21.1
     - matplotlib
+    - sklearn
